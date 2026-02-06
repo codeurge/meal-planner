@@ -25,6 +25,23 @@ export interface Recipe {
   tips?: string[];
 }
 
+// Meal state types for schedule display
+export type MealState = 'planned' | 'prep' | 'unavailable' | 'leftovers' | 'flexible';
+
+export interface MealSlot {
+  recipeId?: string;      // Optional recipe reference
+  state: MealState;       // Display state
+  displayText?: string;   // Override text (e.g., "PREP: Make Freezer Burritos")
+  emoji?: string;         // Override emoji
+}
+
+export interface DaySchedule {
+  day: string;
+  breakfast: MealSlot;
+  lunch: MealSlot;
+  dinner: MealSlot;
+}
+
 export const recipes: Recipe[] = [
   // BREAKFASTS
   {
@@ -264,14 +281,58 @@ export const recipes: Recipe[] = [
   },
 ];
 
-export const weeklySchedule = [
-  { day: 'Sunday', breakfast: 'sausage-gravy-biscuits', lunch: 'freezer-breakfast-burritos', dinner: 'turkey-burrito-skillet', note: 'Make freezer burritos!' },
-  { day: 'Monday', breakfast: 'classic-eggs-bacon', lunch: 'freezer-breakfast-burritos', dinner: null, note: 'Leftovers' },
-  { day: 'Tuesday', breakfast: 'scrambled-eggs-cheese', lunch: 'freezer-breakfast-burritos', dinner: 'cajun-sirloin' },
-  { day: 'Wednesday', breakfast: 'classic-eggs-bacon', lunch: 'freezer-breakfast-burritos', dinner: null, note: 'Leftovers' },
-  { day: 'Thursday', breakfast: 'sausage-gravy-biscuits', lunch: 'freezer-breakfast-burritos', dinner: 'bbq-chicken-quesadillas' },
-  { day: 'Friday', breakfast: 'scrambled-eggs-cheese', lunch: 'freezer-breakfast-burritos', dinner: null, note: 'Leftovers or Takeout' },
-  { day: 'Saturday', breakfast: 'classic-eggs-bacon', lunch: 'freezer-breakfast-burritos', dinner: 'sheet-pan-pork-chops', note: 'Big Breakfast' },
+// Weekly schedule with grocery day (Friday) and prep day (Sunday) logic built-in
+// Week starts on Friday (grocery pickup day at 2-3pm)
+export const weeklySchedule: DaySchedule[] = [
+  // FRIDAY - Grocery day (pickup 2-3pm)
+  {
+    day: 'Friday',
+    breakfast: { state: 'unavailable', displayText: 'Grab something', emoji: '🚗' },
+    lunch: { state: 'unavailable', displayText: 'Grab something', emoji: '🚗' },
+    dinner: { state: 'planned', recipeId: 'turkey-burrito-skillet' }, // Groceries arrive in time!
+  },
+  // SATURDAY - Full groceries available
+  {
+    day: 'Saturday',
+    breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon', displayText: 'Big Breakfast', emoji: '🍳' },
+    lunch: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
+    dinner: { state: 'planned', recipeId: 'cajun-sirloin' },
+  },
+  // SUNDAY - Prep day (make burritos at lunch)
+  {
+    day: 'Sunday',
+    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits' },
+    lunch: { state: 'prep', recipeId: 'freezer-breakfast-burritos', displayText: 'PREP: Make Freezer Burritos', emoji: '🥣' },
+    dinner: { state: 'planned', recipeId: 'bbq-chicken-quesadillas' },
+  },
+  // MONDAY - Burritos now available!
+  {
+    day: 'Monday',
+    breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese' },
+    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
+    dinner: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
+  },
+  // TUESDAY
+  {
+    day: 'Tuesday',
+    breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon' },
+    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
+    dinner: { state: 'planned', recipeId: 'sheet-pan-pork-chops' },
+  },
+  // WEDNESDAY
+  {
+    day: 'Wednesday',
+    breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese' },
+    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
+    dinner: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
+  },
+  // THURSDAY
+  {
+    day: 'Thursday',
+    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits' },
+    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
+    dinner: { state: 'flexible', displayText: 'Leftovers or Takeout', emoji: '🤷' },
+  },
 ];
 
 export function getRecipeById(id: string): Recipe | undefined {
@@ -280,4 +341,26 @@ export function getRecipeById(id: string): Recipe | undefined {
 
 export function getRecipesByCategory(category: 'breakfast' | 'lunch' | 'dinner'): Recipe[] {
   return recipes.filter(r => r.category === category);
+}
+
+// Helper to get the schedule rotated to start from today
+export function getRotatedSchedule(): (DaySchedule & { isToday: boolean; daysFromNow: number })[] {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const todayIndex = new Date().getDay();
+  
+  const rotatedSchedule = [];
+  for (let i = 0; i < 7; i++) {
+    const dayIndex = (todayIndex + i) % 7;
+    const dayName = days[dayIndex];
+    const scheduleEntry = weeklySchedule.find(s => s.day === dayName);
+    if (scheduleEntry) {
+      rotatedSchedule.push({
+        ...scheduleEntry,
+        isToday: i === 0,
+        daysFromNow: i
+      });
+    }
+  }
+  
+  return rotatedSchedule;
 }
