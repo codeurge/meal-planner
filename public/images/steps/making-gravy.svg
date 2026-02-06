@@ -1,0 +1,6 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f8f4f0"/>
+  <text x="200" y="130" font-size="60" text-anchor="middle">🥄</text>
+  <text x="200" y="190" font-size="16" font-family="system-ui, sans-serif" font-weight="600" text-anchor="middle" fill="#44403c">Making the Roux</text>
+  <text x="200" y="215" font-size="12" font-family="system-ui, sans-serif" text-anchor="middle" fill="#78716c">Stir flour into fat, cook 1 min</text>
+</svg>

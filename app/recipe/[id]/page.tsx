@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { recipes, getRecipeById } from '@/data/recipes';
 import { IngredientList } from '@/components/IngredientList';
@@ -34,8 +35,20 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
       </Link>
 
       {/* Hero area */}
-      <div className="bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl h-48 flex items-center justify-center">
-        <span className="text-6xl">{recipe.emoji || '🍽️'}</span>
+      <div className="relative rounded-2xl h-48 overflow-hidden">
+        {recipe.image ? (
+          <Image
+            src={recipe.image}
+            alt={recipe.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        ) : (
+          <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-full w-full flex items-center justify-center">
+            <span className="text-6xl">{recipe.emoji || '🍽️'}</span>
+          </div>
+        )}
       </div>
 
       {/* Header */}
@@ -88,6 +101,16 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
                   <h3 className="font-medium text-gray-900 mb-1">{step.title}</h3>
                 )}
                 <p className="text-gray-700 leading-relaxed">{step.text}</p>
+                {step.image && (
+                  <div className="mt-3 relative h-32 w-48 rounded-lg overflow-hidden">
+                    <Image
+                      src={step.image}
+                      alt={step.title || `Step ${step.step}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           ))}

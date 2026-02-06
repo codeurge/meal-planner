@@ -3,19 +3,33 @@ import { weeklySchedule, getRecipeById } from '@/data/recipes';
 
 export default function Home() {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const today = new Date().getDay();
-  const todayName = days[today];
+  const todayIndex = new Date().getDay();
+  
+  // Create a schedule starting from today, rotating through the week
+  const rotatedSchedule = [];
+  for (let i = 0; i < 7; i++) {
+    const dayIndex = (todayIndex + i) % 7;
+    const dayName = days[dayIndex];
+    const scheduleEntry = weeklySchedule.find(s => s.day === dayName);
+    if (scheduleEntry) {
+      rotatedSchedule.push({
+        ...scheduleEntry,
+        isToday: i === 0,
+        daysFromNow: i
+      });
+    }
+  }
   
   return (
     <div className="space-y-6">
       <header className="text-center py-4">
-        <h1 className="text-2xl font-bold text-gray-900">Week 1</h1>
+        <h1 className="text-2xl font-bold text-gray-900">This Week</h1>
         <p className="text-gray-500 mt-1">Home Cooking Kickoff</p>
       </header>
 
       <div className="space-y-3">
-        {weeklySchedule.map((day) => {
-          const isToday = day.day === todayName;
+        {rotatedSchedule.map((day) => {
+          const isToday = day.isToday;
           const breakfast = day.breakfast ? getRecipeById(day.breakfast) : null;
           const lunch = day.lunch ? getRecipeById(day.lunch) : null;
           const dinner = day.dinner ? getRecipeById(day.dinner) : null;
