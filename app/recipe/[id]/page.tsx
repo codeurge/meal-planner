@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { recipes, getRecipeById } from '@/data/recipes';
 import { IngredientList } from '@/components/IngredientList';
+import { TimingCallout } from '@/components/TimingCallout';
+import { ReserveCallout } from '@/components/ReserveCallout';
 
 export function generateStaticParams() {
   return recipes.map((recipe) => ({
@@ -111,6 +113,24 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
           </div>
         </div>
       </div>
+
+      {/* Timing Callouts */}
+      {recipe.timingCallouts && recipe.timingCallouts.length > 0 && (
+        <div className="space-y-3">
+          {recipe.timingCallouts.map((callout, i) => (
+            <TimingCallout key={`timing-${i}`} message={callout.message} detail={callout.detail} />
+          ))}
+        </div>
+      )}
+
+      {/* Reserve Callouts */}
+      {recipe.reserveCallouts && recipe.reserveCallouts.length > 0 && (
+        <div className="space-y-3">
+          {recipe.reserveCallouts.map((callout, i) => (
+            <ReserveCallout key={`reserve-${i}`} message={callout.message} detail={callout.detail} />
+          ))}
+        </div>
+      )}
 
       {/* Ingredients */}
       <section>

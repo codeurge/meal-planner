@@ -8,6 +8,11 @@ export interface PrepStep {
   image?: string;
 }
 
+export interface CalloutData {
+  message: string;
+  detail?: string;
+}
+
 export interface Recipe {
   id: string;
   title: string;
@@ -29,6 +34,8 @@ export interface Recipe {
     image?: string;
   }[];
   tips?: string[];
+  timingCallouts?: CalloutData[];
+  reserveCallouts?: CalloutData[];
 }
 
 // Meal state types for schedule display
@@ -58,6 +65,9 @@ export const recipes: Recipe[] = [
     category: 'breakfast',
     totalTime: '10 min',
     serves: '2-3',
+    timingCallouts: [
+      { message: '🔥 Start biscuits first!', detail: 'If making biscuits, preheat oven and get them in before starting bacon — they take 12-15 min.' },
+    ],
     ingredients: [
       { item: 'Bacon strips', amount: '4-6' },
       { item: 'Eggs', amount: '4' },
@@ -86,6 +96,9 @@ export const recipes: Recipe[] = [
     category: 'breakfast',
     totalTime: '15 min',
     serves: '3-4',
+    timingCallouts: [
+      { message: 'Start biscuits first!', detail: 'Preheat oven and get biscuits baking (12-15 min) while you make the gravy on the stovetop.' },
+    ],
     ingredients: [
       { item: 'Breakfast sausage', amount: '8 oz' },
       { item: 'All-purpose flour', amount: '3 tbsp' },
@@ -237,6 +250,9 @@ export const recipes: Recipe[] = [
     category: 'dinner',
     totalTime: '40 min',
     serves: '4',
+    timingCallouts: [
+      { message: 'Start potatoes first!', detail: 'Potatoes need 15-20 min to boil. Get them going before you do anything else — season steak while they cook.' },
+    ],
     ingredients: [
       { item: 'Sirloin steak', amount: '1.5 lbs' },
       { item: 'Cajun seasoning', amount: '2 tbsp' },
@@ -272,6 +288,12 @@ export const recipes: Recipe[] = [
     category: 'dinner',
     totalTime: '30 min',
     serves: '4',
+    timingCallouts: [
+      { message: 'Make lime crema first!', detail: 'Mix it up and refrigerate so the flavors meld while you cook everything else.' },
+    ],
+    reserveCallouts: [
+      { message: 'Reserve: Set aside extra BBQ sauce for dipping', detail: 'Don\'t use it all inside the quesadillas! Keep some in a small bowl for serving alongside the lime crema.' },
+    ],
     ingredients: [
       { item: 'Boneless skinless chicken breasts', amount: '1.5 lbs' },
       { item: 'BBQ sauce', amount: '1/2 cup + more for dipping' },
@@ -309,6 +331,9 @@ export const recipes: Recipe[] = [
     category: 'dinner',
     totalTime: '35 min',
     serves: '4',
+    timingCallouts: [
+      { message: 'Start potatoes 15 min before pork chops!', detail: 'Potatoes need a 15-minute head start in the oven. Season pork chops while they roast, then add everything together.' },
+    ],
     ingredients: [
       { item: 'Boneless pork chops', amount: '4 (1.5 lbs)' },
       { item: 'Olive oil', amount: '2 tbsp' },
