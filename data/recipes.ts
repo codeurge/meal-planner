@@ -3,6 +3,11 @@ export interface Ingredient {
   amount?: string;
 }
 
+export interface PrepStep {
+  text: string;
+  image?: string;
+}
+
 export interface Recipe {
   id: string;
   title: string;
@@ -16,6 +21,7 @@ export interface Recipe {
   isHomechefFavorite?: boolean;
   description?: string;
   ingredients: Ingredient[];
+  prepSteps?: PrepStep[];
   instructions: {
     step: number;
     title?: string;
@@ -59,6 +65,11 @@ export const recipes: Recipe[] = [
       { item: 'Pepper', amount: 'to taste' },
       { item: 'Grands biscuits', amount: '1 can (optional)' },
     ],
+    prepSteps: [
+      { text: 'Gather eggs, bacon, salt, pepper, and biscuits on the counter', image: '/images/prep/classic-eggs-bacon-prep.png' },
+      { text: 'Set out a plate lined with paper towels for draining bacon' },
+      { text: 'If making biscuits, preheat oven per package directions' },
+    ],
     instructions: [
       { step: 1, text: 'Cook 4-6 strips bacon in skillet over medium heat until crispy (8-10 min)' },
       { step: 2, text: 'Remove bacon, drain most grease (leave ~1 tbsp)' },
@@ -83,6 +94,12 @@ export const recipes: Recipe[] = [
       { item: 'Pepper', amount: 'to taste' },
       { item: 'Cayenne', amount: 'dash' },
       { item: 'Grands biscuits', amount: '1 can' },
+    ],
+    prepSteps: [
+      { text: 'Measure out 3 tbsp flour and set aside in a small bowl', image: '/images/prep/sausage-gravy-biscuits-prep.png' },
+      { text: 'Measure 2 cups milk and have it ready to pour' },
+      { text: 'Gather cayenne, salt, and pepper near the stove' },
+      { text: 'Preheat oven for biscuits per package directions' },
     ],
     instructions: [
       { step: 1, title: 'Brown the sausage', text: 'Brown 8 oz breakfast sausage in skillet, breaking into crumbles' },
@@ -109,6 +126,12 @@ export const recipes: Recipe[] = [
       { item: 'Shredded cheese', amount: '1/4 cup' },
       { item: 'Salt', amount: 'to taste' },
       { item: 'Pepper', amount: 'to taste' },
+    ],
+    prepSteps: [
+      { text: 'Crack 4 eggs into a mixing bowl', image: '/images/prep/scrambled-eggs-cheese-prep.png' },
+      { text: 'Measure 2 tbsp milk and add to the bowl' },
+      { text: 'Shred or measure 1/4 cup cheese and set aside' },
+      { text: 'Have butter, salt, and pepper within reach of the stove' },
     ],
     instructions: [
       { step: 1, text: 'Whisk 4 eggs with 2 tbsp milk, salt, pepper' },
@@ -138,6 +161,13 @@ export const recipes: Recipe[] = [
       { item: 'Salt', amount: 'to taste' },
       { item: 'Pepper', amount: 'to taste' },
       { item: 'Garlic powder', amount: 'to taste' },
+    ],
+    prepSteps: [
+      { text: 'Measure 3 cups frozen hash browns and set out to partially thaw', image: '/images/prep/freezer-breakfast-burritos-prep.png' },
+      { text: 'Crack 8 eggs into a large bowl and whisk together' },
+      { text: 'Shred or measure 1 cup Mexican cheese' },
+      { text: 'Lay out 10 tortillas and have foil/plastic wrap ready for wrapping' },
+      { text: 'Clear freezer space and set out a baking sheet for freezing burritos flat' },
     ],
     instructions: [
       { step: 1, text: 'Brown sausage in large skillet, remove and set aside' },
@@ -183,6 +213,13 @@ export const recipes: Recipe[] = [
       { item: 'Fresh cilantro', amount: 'for serving' },
       { item: 'Lime', amount: 'for serving' },
     ],
+    prepSteps: [
+      { text: 'Drain and rinse the can of black beans', image: '/images/prep/turkey-burrito-skillet-prep.png' },
+      { text: 'Measure 1 cup rice and 1.5 cups chicken broth' },
+      { text: 'Mix together cumin, chili powder, garlic powder, salt, and pepper in a small bowl' },
+      { text: 'Shred 1 cup Mexican cheese' },
+      { text: 'Chop cilantro and cut lime into wedges for serving' },
+    ],
     instructions: [
       { step: 1, title: 'Brown the turkey', text: 'Heat 1 tbsp oil in large skillet over medium-high. Add turkey, break up with spatula. Season with cumin, chili powder, garlic powder, salt, pepper. Cook until no pink remains. (5 min)' },
       { step: 2, title: 'Add liquids and rice', text: 'Stir in rice, black beans, tomatoes (with juice), and chicken broth. Bring to boil. (2 min)' },
@@ -210,6 +247,13 @@ export const recipes: Recipe[] = [
       { item: 'Salt & pepper', amount: 'to taste' },
       { item: 'Green beans', amount: '1 lb fresh or frozen' },
       { item: 'Vegetable oil', amount: '1 tbsp' },
+    ],
+    prepSteps: [
+      { text: 'Cut potatoes into 1-inch chunks (skin on is fine)', image: '/images/prep/cajun-sirloin-prep.png' },
+      { text: 'Pat steaks dry with paper towels and let come to room temperature' },
+      { text: 'Measure 2 tbsp Cajun seasoning for the steak' },
+      { text: 'Measure butter, sour cream, and parmesan for the potatoes' },
+      { text: 'Trim green beans if using fresh' },
     ],
     instructions: [
       { step: 1, title: 'Start potatoes', text: 'Cut potatoes into 1-inch chunks (skin on is fine). Boil in salted water until fork-tender (15-20 min). Drain, return to pot. (25 min)' },
@@ -241,6 +285,13 @@ export const recipes: Recipe[] = [
       { item: 'Garlic powder', amount: '1/4 tsp' },
       { item: 'Salt', amount: 'pinch' },
     ],
+    prepSteps: [
+      { text: 'Slice bell pepper into thin strips', image: '/images/prep/bbq-chicken-quesadillas-prep.png' },
+      { text: 'Slice onion into thin half-moons' },
+      { text: 'Juice 2 limes into a small bowl' },
+      { text: 'Measure sour cream, garlic powder, and salt for the lime crema' },
+      { text: 'Shred 2 cups cheese and have tortillas ready' },
+    ],
     instructions: [
       { step: 1, title: 'Make lime crema', text: 'Mix sour cream, lime juice, garlic powder, salt. Refrigerate until serving. (2 min)' },
       { step: 2, title: 'Cook chicken', text: 'Season chicken with Cajun seasoning, salt, pepper. Grill or pan-sear over medium-high, 6-7 min per side. Internal temp 165°F. Rest 5 min, then slice thin. (15 min)' },
@@ -269,6 +320,13 @@ export const recipes: Recipe[] = [
       { item: 'Baby potatoes (halved)', amount: '1 lb' },
       { item: 'Honey', amount: '2 tbsp' },
       { item: 'Whole grain mustard (optional)', amount: '1 tbsp' },
+    ],
+    prepSteps: [
+      { text: 'Halve baby potatoes and break broccoli into florets', image: '/images/prep/sheet-pan-pork-chops-prep.png' },
+      { text: 'Mix Italian seasoning, paprika, garlic powder, salt, and pepper in a small bowl' },
+      { text: 'Pat pork chops dry with paper towels' },
+      { text: 'Mix honey and mustard glaze in a small bowl' },
+      { text: 'Line a sheet pan with parchment paper or foil' },
     ],
     instructions: [
       { step: 1, title: 'Preheat oven', text: 'Preheat oven to 425°F' },

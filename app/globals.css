@@ -1,43 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FFFBF5;
-  --background-card: #FFF8F0;
-  --foreground: #2D2A26;
-  --foreground-muted: #6B6560;
-  --foreground-faint: #9C9590;
-  --primary: #7D9B76;
-  --primary-dark: #5C7A55;
-  --primary-light: #9DB896;
+  --background: #FFFFFF;
+  --background-card: #FAFAFA;
+  --foreground: #1A1A1A;
+  --foreground-muted: #555555;
+  --foreground-faint: #999999;
+  --primary: #4A7C59;
+  --primary-dark: #3A6347;
+  --primary-light: #6B9E78;
   --accent: #C4785A;
   --accent-light: #D4956E;
-  --highlight: #F5E6C8;
+  --highlight: #FFF8F0;
   --alert: #D64545;
-  --border: #E8E0D8;
-  --border-light: #F0EAE4;
-  --surface: #F5EFE8;
-  --surface-hover: #EDE5DC;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1A1816;
-    --background-card: #252220;
-    --foreground: #F5F0EB;
-    --foreground-muted: #D4CEC8;
-    --foreground-faint: #A09890;
-    --primary: #A8C8A0;
-    --primary-dark: #8DB886;
-    --primary-light: #C0DEB8;
-    --accent: #E4A580;
-    --accent-light: #F0B890;
-    --highlight: #3D3528;
-    --alert: #F07070;
-    --border: #3A3530;
-    --border-light: #302C28;
-    --surface: #2A2622;
-    --surface-hover: #353028;
-  }
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
+  --surface: #F5F5F5;
+  --surface-hover: #EBEBEB;
 }
 
 body {
@@ -46,13 +25,6 @@ body {
   font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Better link contrast in dark mode */
-@media (prefers-color-scheme: dark) {
-  a:hover {
-    color: var(--foreground) !important;
-  }
 }
 
 /* Custom checkbox styling */
@@ -65,11 +37,6 @@ body {
   opacity: 0.5;
 }
 
-/* Smooth transitions for dark/light mode */
-*, *::before, *::after {
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
 /* Focus styles */
 :focus-visible {
   outline: 2px solid var(--primary);
@@ -80,5 +47,12 @@ body {
 /* Step number circles */
 .step-number {
   background: var(--primary);
-  color: var(--background);
+  color: #FFFFFF;
+}
+
+/* Prep section styling */
+.prep-section {
+  background: #F8FBF8;
+  border: 1px solid #D4E8D4;
+  border-left: 4px solid var(--primary);
 }

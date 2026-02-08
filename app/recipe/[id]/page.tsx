@@ -120,6 +120,43 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
         <IngredientList ingredients={recipe.ingredients} />
       </section>
 
+      {/* Prep */}
+      {recipe.prepSteps && recipe.prepSteps.length > 0 && (
+        <section className="prep-section rounded-xl p-6">
+          <h2 className="text-lg font-bold mb-1 tracking-tight flex items-center gap-2" style={{ color: 'var(--primary-dark)' }}>
+            🔪 Prep
+          </h2>
+          <p className="text-xs font-medium mb-4" style={{ color: 'var(--foreground-faint)' }}>
+            Get everything ready before you start cooking
+          </p>
+          {recipe.prepSteps[0]?.image && (
+            <div className="relative h-48 w-full rounded-xl overflow-hidden mb-5">
+              <Image
+                src={recipe.prepSteps[0].image}
+                alt={`Prep for ${recipe.title}`}
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
+          <ul className="space-y-3">
+            {recipe.prepSteps.map((step, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <span
+                  className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
+                  style={{ background: 'var(--primary-light)', color: '#FFFFFF' }}
+                >
+                  {i + 1}
+                </span>
+                <span className="text-sm leading-relaxed" style={{ color: 'var(--foreground)' }}>
+                  {step.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* Instructions */}
       <section>
         <h2 className="text-lg font-bold mb-6 tracking-tight" style={{ color: 'var(--foreground)' }}>
