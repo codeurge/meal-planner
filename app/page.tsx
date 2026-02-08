@@ -27,9 +27,9 @@ function MealDisplay({ meal, mealType }: { meal: MealSlot; mealType: string }) {
           : { color: 'var(--foreground)' };
 
   return (
-    <div className="flex items-center gap-3 py-1.5">
+    <div className="flex items-center gap-3 py-2">
       <span
-        className="text-xs font-medium w-16 uppercase tracking-wide"
+        className="text-xs font-semibold w-16 uppercase tracking-wider"
         style={{ color: 'var(--foreground-faint)', fontSize: '0.65rem' }}
       >
         {mealType}
@@ -51,10 +51,10 @@ function MealDisplay({ meal, mealType }: { meal: MealSlot; mealType: string }) {
         )}
         {state.badge && meal.state === 'prep' && (
           <span
-            className="text-[0.6rem] font-semibold px-1.5 py-0.5 rounded-md"
+            className="text-[0.6rem] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide"
             style={{ background: 'var(--highlight)', color: 'var(--accent)' }}
           >
-            PREP
+            Prep
           </span>
         )}
       </div>
@@ -83,31 +83,37 @@ function DayCard({
         border: isToday
           ? '2px solid var(--primary)'
           : '1px solid var(--border)',
+        boxShadow: isToday ? '0 4px 20px rgba(0,0,0,0.08)' : 'none',
       }}
     >
       {/* Hero image for days with dinner recipes that have real images */}
       {heroImage && (
-        <div className="relative h-32 w-full">
+        <div className="relative h-36 w-full">
           <Image
             src={heroImage}
             alt={dinnerRecipe?.title || ''}
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute bottom-2 left-4 right-4">
+            <span className="text-white text-xs font-semibold opacity-90">
+              Tonight: {dinnerRecipe?.title}
+            </span>
+          </div>
         </div>
       )}
 
       <div className="p-4">
         {/* Day header */}
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-semibold text-base" style={{ color: isToday ? 'var(--primary)' : 'var(--foreground)' }}>
+          <h2 className="font-bold text-base tracking-tight" style={{ color: isToday ? 'var(--primary)' : 'var(--foreground)' }}>
             {day.day}
           </h2>
           <div className="flex gap-1.5">
             {isToday && (
               <span
-                className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                className="text-xs font-bold px-2.5 py-1 rounded-full"
                 style={{ background: 'var(--primary)', color: 'var(--background)' }}
               >
                 Today
@@ -133,7 +139,7 @@ function DayCard({
         </div>
 
         {/* Meals */}
-        <div className="space-y-0.5">
+        <div className="space-y-0.5 divide-y" style={{ borderColor: 'var(--border-light)' }}>
           <MealDisplay meal={day.breakfast} mealType="Breakfast" />
           <MealDisplay meal={day.lunch} mealType="Lunch" />
           <MealDisplay meal={day.dinner} mealType="Dinner" />
@@ -149,28 +155,28 @@ export default function Home() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <header className="text-center py-6">
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
+      <header className="text-center py-8">
+        <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--foreground)' }}>
           This Week
         </h1>
-        <p className="mt-1 text-sm" style={{ color: 'var(--foreground-muted)' }}>
+        <p className="mt-2 text-sm font-medium" style={{ color: 'var(--foreground-muted)' }}>
           Home Cooking Kickoff
         </p>
       </header>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-4 justify-center text-xs" style={{ color: 'var(--foreground-muted)' }}>
+      <div className="flex flex-wrap gap-4 justify-center text-xs font-medium" style={{ color: 'var(--foreground-muted)' }}>
         <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full" style={{ background: 'var(--primary)' }} /> Planned
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'var(--primary)' }} /> Planned
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full" style={{ background: 'var(--accent)' }} /> Prep
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'var(--accent)' }} /> Prep
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full" style={{ background: 'var(--foreground-faint)' }} /> Unavailable
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'var(--foreground-faint)' }} /> Unavailable
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full" style={{ background: 'var(--foreground-muted)' }} /> Flex
+          <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'var(--foreground-muted)' }} /> Flex
         </span>
       </div>
 
@@ -182,7 +188,7 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="text-center text-xs py-6 space-y-1" style={{ color: 'var(--foreground-faint)' }}>
+      <footer className="text-center text-xs py-8 space-y-1.5 font-medium" style={{ color: 'var(--foreground-faint)' }}>
         <p>🛒 Grocery pickup: Fridays 2-3pm</p>
         <p>🥣 Burrito prep: Sunday lunch → ready Monday</p>
       </footer>

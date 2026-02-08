@@ -8,12 +8,16 @@ function RecipeCard({ recipe }: { recipe: (typeof recipes)[0] }) {
   return (
     <Link
       href={`/recipe/${recipe.id}`}
-      className="block rounded-xl overflow-hidden transition-all hover:scale-[1.01]"
-      style={{ background: 'var(--background-card)', border: '1px solid var(--border)' }}
+      className="block rounded-xl overflow-hidden transition-all hover:scale-[1.02]"
+      style={{
+        background: 'var(--background-card)',
+        border: '1px solid var(--border)',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+      }}
     >
       {/* Image */}
       {hasRealImage && recipe.image ? (
-        <div className="relative h-36 w-full">
+        <div className="relative h-40 w-full">
           <Image
             src={recipe.image}
             alt={recipe.title}
@@ -23,7 +27,7 @@ function RecipeCard({ recipe }: { recipe: (typeof recipes)[0] }) {
         </div>
       ) : (
         <div
-          className="h-24 w-full flex items-center justify-center"
+          className="h-28 w-full flex items-center justify-center"
           style={{ background: 'var(--surface)' }}
         >
           <span className="text-4xl">{recipe.emoji || '🍽️'}</span>
@@ -32,11 +36,11 @@ function RecipeCard({ recipe }: { recipe: (typeof recipes)[0] }) {
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="font-semibold" style={{ color: 'var(--foreground)' }}>
+        <h3 className="font-bold text-sm leading-tight" style={{ color: 'var(--foreground)' }}>
           {recipe.title}
           {recipe.isHomechefFavorite && <span className="ml-1">⭐</span>}
         </h3>
-        <p className="text-sm mt-0.5" style={{ color: 'var(--foreground-muted)' }}>
+        <p className="text-xs mt-1.5 font-medium" style={{ color: 'var(--foreground-muted)' }}>
           {recipe.totalTime} · Serves {recipe.serves}
         </p>
       </div>
@@ -51,18 +55,18 @@ export default function RecipesPage() {
 
   return (
     <div className="space-y-10 pb-8">
-      <header className="pt-2">
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
+      <header className="pt-4">
+        <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--foreground)' }}>
           All Recipes
         </h1>
-        <p className="mt-1 text-sm" style={{ color: 'var(--foreground-muted)' }}>
+        <p className="mt-1.5 text-sm font-medium" style={{ color: 'var(--foreground-muted)' }}>
           Week 1 Collection
         </p>
       </header>
 
       <section>
         <h2
-          className="text-base font-semibold mb-4 flex items-center gap-2"
+          className="text-base font-bold mb-4 flex items-center gap-2"
           style={{ color: 'var(--foreground)' }}
         >
           <span>🌅</span> Breakfasts
@@ -76,7 +80,7 @@ export default function RecipesPage() {
 
       <section>
         <h2
-          className="text-base font-semibold mb-4 flex items-center gap-2"
+          className="text-base font-bold mb-4 flex items-center gap-2"
           style={{ color: 'var(--foreground)' }}
         >
           <span>🥪</span> Lunches
@@ -90,7 +94,7 @@ export default function RecipesPage() {
 
       <section>
         <h2
-          className="text-base font-semibold mb-4 flex items-center gap-2"
+          className="text-base font-bold mb-4 flex items-center gap-2"
           style={{ color: 'var(--foreground)' }}
         >
           <span>🍽️</span> Dinners

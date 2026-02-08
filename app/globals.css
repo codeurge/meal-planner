@@ -24,15 +24,15 @@
     --background: #1A1816;
     --background-card: #252220;
     --foreground: #F5F0EB;
-    --foreground-muted: #B8B0A8;
-    --foreground-faint: #807870;
-    --primary: #9DB896;
-    --primary-dark: #7D9B76;
-    --primary-light: #B8D4B0;
-    --accent: #D4956E;
-    --accent-light: #E4A880;
+    --foreground-muted: #D4CEC8;
+    --foreground-faint: #A09890;
+    --primary: #A8C8A0;
+    --primary-dark: #8DB886;
+    --primary-light: #C0DEB8;
+    --accent: #E4A580;
+    --accent-light: #F0B890;
     --highlight: #3D3528;
-    --alert: #E86060;
+    --alert: #F07070;
     --border: #3A3530;
     --border-light: #302C28;
     --surface: #2A2622;
@@ -44,6 +44,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Better link contrast in dark mode */
+@media (prefers-color-scheme: dark) {
+  a:hover {
+    color: var(--foreground) !important;
+  }
 }
 
 /* Custom checkbox styling */

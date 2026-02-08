@@ -20,7 +20,7 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
 
   const categoryColors: Record<string, { bg: string; text: string }> = {
     breakfast: { bg: 'var(--highlight)', text: 'var(--accent)' },
-    lunch: { bg: 'var(--highlight)', text: 'var(--primary-dark)' },
+    lunch: { bg: 'var(--highlight)', text: 'var(--primary)' },
     dinner: { bg: 'var(--highlight)', text: 'var(--accent)' },
   };
 
@@ -28,29 +28,32 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
   const hasRealImage = recipe.image?.endsWith('.png');
 
   return (
-    <div className="space-y-6 pb-10">
+    <div className="space-y-8 pb-12">
       {/* Back button */}
       <Link
         href="/"
-        className="inline-flex items-center text-sm font-medium transition-colors"
+        className="inline-flex items-center text-sm font-semibold transition-colors"
         style={{ color: 'var(--foreground-muted)' }}
       >
         ← Back to week
       </Link>
 
       {/* Hero */}
-      <div className="relative rounded-2xl h-56 overflow-hidden" style={{ background: 'var(--surface)' }}>
+      <div className="relative rounded-2xl overflow-hidden" style={{ background: 'var(--surface)' }}>
         {hasRealImage && recipe.image ? (
-          <Image
-            src={recipe.image}
-            alt={recipe.title}
-            fill
-            className="object-cover"
-            priority
-          />
+          <div className="relative h-64">
+            <Image
+              src={recipe.image}
+              alt={recipe.title}
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+          </div>
         ) : (
           <div
-            className="h-full w-full flex items-center justify-center"
+            className="h-48 w-full flex items-center justify-center"
             style={{ background: 'linear-gradient(135deg, var(--surface), var(--surface-hover))' }}
           >
             <span className="text-7xl">{recipe.emoji || '🍽️'}</span>
@@ -60,27 +63,27 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
 
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-3">
           <span
-            className="text-xs font-semibold px-2.5 py-1 rounded-full"
+            className="text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
             style={{ background: cat.bg, color: cat.text }}
           >
-            {recipe.category.charAt(0).toUpperCase() + recipe.category.slice(1)}
+            {recipe.category}
           </span>
           {recipe.isHomechefFavorite && (
             <span
-              className="text-xs font-semibold px-2.5 py-1 rounded-full"
+              className="text-xs font-bold px-2.5 py-1 rounded-full"
               style={{ background: 'var(--highlight)', color: 'var(--primary)' }}
             >
               ⭐ Derek&apos;s Favorite
             </span>
           )}
         </div>
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
+        <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--foreground)' }}>
           {recipe.title}
         </h1>
         {recipe.description && (
-          <p className="mt-1" style={{ color: 'var(--foreground-muted)' }}>
+          <p className="mt-2 text-base" style={{ color: 'var(--foreground-muted)' }}>
             {recipe.description}
           </p>
         )}
@@ -95,7 +98,7 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
           <div className="text-lg font-bold" style={{ color: 'var(--foreground)' }}>
             {recipe.totalTime}
           </div>
-          <div className="text-xs" style={{ color: 'var(--foreground-faint)' }}>
+          <div className="text-xs font-medium" style={{ color: 'var(--foreground-faint)' }}>
             Total Time
           </div>
         </div>
@@ -103,7 +106,7 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
           <div className="text-lg font-bold" style={{ color: 'var(--foreground)' }}>
             {recipe.serves}
           </div>
-          <div className="text-xs" style={{ color: 'var(--foreground-faint)' }}>
+          <div className="text-xs font-medium" style={{ color: 'var(--foreground-faint)' }}>
             Serves
           </div>
         </div>
@@ -111,18 +114,18 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
 
       {/* Ingredients */}
       <section>
-        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--foreground)' }}>
+        <h2 className="text-lg font-bold mb-4 tracking-tight" style={{ color: 'var(--foreground)' }}>
           Ingredients
         </h2>
         <IngredientList ingredients={recipe.ingredients} />
       </section>
 
-      {/* Instructions — Big text for kitchen use */}
+      {/* Instructions */}
       <section>
-        <h2 className="text-lg font-semibold mb-5" style={{ color: 'var(--foreground)' }}>
+        <h2 className="text-lg font-bold mb-6 tracking-tight" style={{ color: 'var(--foreground)' }}>
           Instructions
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-8">
           {recipe.instructions.map((step) => (
             <div key={step.step} className="flex gap-4">
               <div
@@ -133,15 +136,15 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
               <div className="flex-1 pt-0.5">
                 {step.title && (
                   <h3
-                    className="font-semibold mb-1"
+                    className="font-bold mb-1.5"
                     style={{ color: 'var(--foreground)' }}
                   >
                     {step.title}
                   </h3>
                 )}
                 <p
-                  className="text-base leading-relaxed"
-                  style={{ color: 'var(--foreground-muted)', fontSize: '1rem', lineHeight: '1.7' }}
+                  className="leading-relaxed"
+                  style={{ color: 'var(--foreground-muted)', fontSize: '1.05rem', lineHeight: '1.75' }}
                 >
                   {step.text}
                 </p>
@@ -167,13 +170,13 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
           className="rounded-xl p-5"
           style={{ background: 'var(--highlight)', border: '1px solid var(--border)' }}
         >
-          <h2 className="text-sm font-semibold mb-2" style={{ color: 'var(--accent)' }}>
+          <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--accent)' }}>
             💡 Tips
           </h2>
-          <ul className="space-y-1.5">
+          <ul className="space-y-2">
             {recipe.tips.map((tip, i) => (
-              <li key={i} className="text-sm" style={{ color: 'var(--foreground-muted)' }}>
-                {tip}
+              <li key={i} className="text-sm leading-relaxed" style={{ color: 'var(--foreground-muted)' }}>
+                • {tip}
               </li>
             ))}
           </ul>
