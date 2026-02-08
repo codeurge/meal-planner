@@ -200,6 +200,46 @@ export const recipes: Recipe[] = [
     ],
   },
 
+  {
+    id: 'beef-bean-burritos',
+    title: 'Beef & Bean Burritos',
+    emoji: '🌯',
+    image: '/images/recipes/beef-bean-burritos.png',
+    category: 'lunch',
+    totalTime: '30 min prep',
+    serves: '8 burritos',
+    description: 'Make-ahead freezer burritos for weekday lunches',
+    ingredients: [
+      { item: 'Ground beef', amount: '1 lb' },
+      { item: 'Taco seasoning', amount: '1 packet' },
+      { item: 'Black beans (drained & rinsed)', amount: '1 can (15 oz)' },
+      { item: 'Cooked rice', amount: '2 cups' },
+      { item: 'Shredded Mexican cheese', amount: '1 cup' },
+      { item: 'Salsa', amount: '1/2 cup' },
+      { item: 'Large flour tortillas', amount: '8' },
+    ],
+    prepSteps: [
+      { text: 'Cook 2 cups rice according to package directions (or use leftover rice)', image: '/images/prep/beef-bean-burritos-prep.png' },
+      { text: 'Drain and rinse the can of black beans' },
+      { text: 'Shred or measure 1 cup cheese' },
+      { text: 'Lay out tortillas and have foil or plastic wrap ready for wrapping' },
+      { text: 'Clear freezer space for a baking sheet' },
+    ],
+    instructions: [
+      { step: 1, title: 'Brown the beef', text: 'Cook ground beef in a large skillet over medium-high heat, breaking into crumbles. Drain excess fat.' },
+      { step: 2, title: 'Season', text: 'Add taco seasoning packet with the amount of water listed on the package. Stir and simmer until thickened (3-5 min).' },
+      { step: 3, title: 'Combine filling', text: 'In a large bowl, mix seasoned beef, black beans, cooked rice, and salsa.' },
+      { step: 4, title: 'Warm tortillas', text: 'Microwave tortillas 10-15 seconds each so they\'re pliable and won\'t crack.' },
+      { step: 5, title: 'Assemble', text: 'Spoon ~1/2 cup filling onto each tortilla. Top with cheese. Fold bottom up, sides in, and roll tight.' },
+      { step: 6, title: 'Wrap and freeze', text: 'Wrap each burrito in foil or plastic wrap. Freeze flat on a baking sheet, then transfer to a freezer bag.' },
+    ],
+    tips: [
+      'To reheat: Remove wrapper, wrap in damp paper towel, microwave 2-2.5 min, flip halfway',
+      'Let rest 30 seconds before eating (the inside will be lava hot)',
+      'These keep in the freezer for up to 3 months',
+    ],
+  },
+
   // DINNERS
   {
     id: 'turkey-burrito-skillet',
@@ -399,7 +439,7 @@ export const weeklySchedule: DateSchedule[] = [
     date: '2026-02-09',
     day: 'Monday',
     breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese', displayText: 'Scrambled Eggs with Cheese (or Freezer Breakfast Burrito)' },
-    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
+    lunch: { state: 'planned', recipeId: 'beef-bean-burritos', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
     dinner: { state: 'planned', recipeId: 'bbq-chicken-quesadillas' },
   },
   // TUESDAY Feb 10
@@ -407,7 +447,7 @@ export const weeklySchedule: DateSchedule[] = [
     date: '2026-02-10',
     day: 'Tuesday',
     breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon', displayText: 'Classic Eggs & Bacon (or Freezer Breakfast Burrito)' },
-    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
+    lunch: { state: 'planned', recipeId: 'beef-bean-burritos', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
     dinner: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
   },
   // WEDNESDAY Feb 11
@@ -415,7 +455,7 @@ export const weeklySchedule: DateSchedule[] = [
     date: '2026-02-11',
     day: 'Wednesday',
     breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits', displayText: 'Sausage Gravy & Biscuits (or Freezer Breakfast Burrito)' },
-    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
+    lunch: { state: 'planned', recipeId: 'beef-bean-burritos', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
     dinner: { state: 'flexible', displayText: 'Leftovers or Takeout', emoji: '🤷' },
   },
   // THURSDAY Feb 12
@@ -423,7 +463,7 @@ export const weeklySchedule: DateSchedule[] = [
     date: '2026-02-12',
     day: 'Thursday',
     breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese', displayText: 'Scrambled Eggs with Cheese (or Freezer Breakfast Burrito)' },
-    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
+    lunch: { state: 'planned', recipeId: 'beef-bean-burritos', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
     dinner: { state: 'flexible', displayText: 'TBD (next week planning)', emoji: '📋' },
   },
 ];
