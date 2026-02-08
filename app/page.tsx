@@ -16,6 +16,7 @@ function MealDisplay({ meal, mealType }: { meal: MealSlot; mealType: string }) {
   const emoji = meal.emoji || recipe?.emoji || '';
   const displayText = meal.displayText || recipe?.title || '—';
   const showLink = (meal.state === 'planned' || meal.state === 'prep') && recipe;
+  const showThumbnail = (mealType === 'Breakfast' || mealType === 'Lunch') && recipe?.image?.endsWith('.png');
 
   const textStyle: React.CSSProperties =
     meal.state === 'unavailable'
@@ -34,6 +35,17 @@ function MealDisplay({ meal, mealType }: { meal: MealSlot; mealType: string }) {
       >
         {mealType}
       </span>
+      {showThumbnail && recipe?.image && (
+        <div className="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
+          <Image
+            src={recipe.image}
+            alt={recipe.title}
+            fill
+            className="object-cover"
+            sizes="36px"
+          />
+        </div>
+      )}
       <div className="flex-1 flex items-center gap-2 min-w-0">
         {showLink && recipe ? (
           <Link
@@ -77,9 +89,24 @@ function DayCard({
   const isGroceryDay = day.day === 'Friday';
   const isPrepDay = day.day === 'Sunday';
 
-  // Find dinner recipe for hero image
+  // Find hero image: dinner → breakfast → lunch, then fallback
   const dinnerRecipe = day.dinner.recipeId ? getRecipeById(day.dinner.recipeId) : null;
-  const heroImage = dinnerRecipe?.image?.endsWith('.png') ? dinnerRecipe.image : null;
+  const breakfastRecipe = day.breakfast.recipeId ? getRecipeById(day.breakfast.recipeId) : null;
+  const lunchRecipe = day.lunch.recipeId ? getRecipeById(day.lunch.recipeId) : null;
+
+  const dinnerImage = dinnerRecipe?.image?.endsWith('.png') ? dinnerRecipe.image : null;
+  const breakfastImage = breakfastRecipe?.image?.endsWith('.png') ? breakfastRecipe.image : null;
+  const lunchImage = lunchRecipe?.image?.endsWith('.png') ? lunchRecipe.image : null;
+
+  const heroImage = dinnerImage || breakfastImage || lunchImage;
+  const heroRecipe = dinnerImage ? dinnerRecipe : breakfastImage ? breakfastRecipe : lunchImage ? lunchRecipe : null;
+  const heroLabel = dinnerImage
+    ? `Tonight: ${dinnerRecipe?.title}`
+    : breakfastImage
+      ? `Morning: ${breakfastRecipe?.title}`
+      : lunchImage
+        ? `Lunch: ${lunchRecipe?.title}`
+        : '';
 
   return (
     <div
@@ -92,19 +119,38 @@ function DayCard({
         boxShadow: isToday ? '0 4px 20px rgba(0,0,0,0.08)' : 'none',
       }}
     >
-      {/* Hero image for days with dinner recipes that have real images */}
-      {heroImage && (
+      {/* Hero image — recipe photo or gradient fallback */}
+      {heroImage ? (
         <div className="relative h-36 w-full">
           <Image
             src={heroImage}
-            alt={dinnerRecipe?.title || ''}
+            alt={heroRecipe?.title || ''}
             fill
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <div className="absolute bottom-2 left-4 right-4">
             <span className="text-white text-xs font-semibold opacity-90">
-              Tonight: {dinnerRecipe?.title}
+              {heroLabel}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div
+          className="relative h-28 w-full flex items-end"
+          style={{
+            background: 'linear-gradient(135deg, var(--primary-light, #e8f5e9) 0%, var(--highlight, #fff8e1) 100%)',
+          }}
+        >
+          <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-30 select-none">
+            🍽️
+          </div>
+          <div className="relative px-4 pb-2">
+            <span
+              className="text-xs font-semibold opacity-70"
+              style={{ color: 'var(--foreground-muted)' }}
+            >
+              {day.day} eats
             </span>
           </div>
         </div>
