@@ -20,27 +20,71 @@ export function IngredientList({ ingredients }: IngredientListProps) {
     setChecked(newChecked);
   };
 
+  const allChecked = checked.size === ingredients.length;
+
   return (
-    <div className="space-y-2">
-      {ingredients.map((ingredient, index) => (
-        <label 
-          key={index}
-          className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-        >
-          <input
-            type="checkbox"
-            checked={checked.has(index)}
-            onChange={() => toggleIngredient(index)}
-            className="ingredient-checkbox w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
-          />
-          <span className={`flex-1 text-gray-800 ${checked.has(index) ? 'line-through opacity-50' : ''}`}>
-            {ingredient.amount && (
-              <span className="font-medium">{ingredient.amount}</span>
-            )}{' '}
-            {ingredient.item}
+    <div>
+      {/* Progress indicator */}
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-xs font-medium" style={{ color: 'var(--foreground-faint)' }}>
+          {checked.size} of {ingredients.length} gathered
+        </span>
+        {allChecked && (
+          <span className="text-xs font-semibold" style={{ color: 'var(--primary)' }}>
+            ✓ Ready to cook!
           </span>
-        </label>
-      ))}
+        )}
+      </div>
+
+      {/* Progress bar */}
+      <div
+        className="h-1 rounded-full mb-4 overflow-hidden"
+        style={{ background: 'var(--border)' }}
+      >
+        <div
+          className="h-full rounded-full transition-all duration-300"
+          style={{
+            width: `${(checked.size / ingredients.length) * 100}%`,
+            background: allChecked ? 'var(--primary)' : 'var(--accent)',
+          }}
+        />
+      </div>
+
+      {/* Ingredients */}
+      <div className="space-y-1">
+        {ingredients.map((ingredient, index) => {
+          const isChecked = checked.has(index);
+          return (
+            <label
+              key={index}
+              className="flex items-center gap-3 py-2.5 px-3 rounded-xl cursor-pointer transition-colors"
+              style={{
+                background: isChecked ? 'var(--surface)' : 'transparent',
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={() => toggleIngredient(index)}
+                className="ingredient-checkbox w-5 h-5 rounded cursor-pointer"
+              />
+              <span
+                className="flex-1 text-sm transition-opacity"
+                style={{
+                  color: isChecked ? 'var(--foreground-faint)' : 'var(--foreground)',
+                  textDecoration: isChecked ? 'line-through' : 'none',
+                  opacity: isChecked ? 0.5 : 1,
+                }}
+              >
+                {ingredient.amount && (
+                  <span className="font-semibold">{ingredient.amount}</span>
+                )}{' '}
+                {ingredient.item}
+              </span>
+            </label>
+          );
+        })}
+      </div>
     </div>
   );
 }

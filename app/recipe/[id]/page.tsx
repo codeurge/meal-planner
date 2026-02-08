@@ -13,30 +13,34 @@ export function generateStaticParams() {
 export default async function RecipePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const recipe = getRecipeById(id);
-  
+
   if (!recipe) {
     notFound();
   }
 
-  const categoryColors = {
-    breakfast: 'bg-amber-100 text-amber-700',
-    lunch: 'bg-blue-100 text-blue-700', 
-    dinner: 'bg-purple-100 text-purple-700',
+  const categoryColors: Record<string, { bg: string; text: string }> = {
+    breakfast: { bg: 'var(--highlight)', text: 'var(--accent)' },
+    lunch: { bg: 'var(--highlight)', text: 'var(--primary-dark)' },
+    dinner: { bg: 'var(--highlight)', text: 'var(--accent)' },
   };
 
+  const cat = categoryColors[recipe.category] || categoryColors.dinner;
+  const hasRealImage = recipe.image?.endsWith('.png');
+
   return (
-    <div className="space-y-6 pb-8">
+    <div className="space-y-6 pb-10">
       {/* Back button */}
-      <Link 
+      <Link
         href="/"
-        className="inline-flex items-center text-sm text-gray-500 hover:text-emerald-600"
+        className="inline-flex items-center text-sm font-medium transition-colors"
+        style={{ color: 'var(--foreground-muted)' }}
       >
         ← Back to week
       </Link>
 
-      {/* Hero area */}
-      <div className="relative rounded-2xl h-48 overflow-hidden">
-        {recipe.image ? (
+      {/* Hero */}
+      <div className="relative rounded-2xl h-56 overflow-hidden" style={{ background: 'var(--surface)' }}>
+        {hasRealImage && recipe.image ? (
           <Image
             src={recipe.image}
             alt={recipe.title}
@@ -45,8 +49,11 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
             priority
           />
         ) : (
-          <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-full w-full flex items-center justify-center">
-            <span className="text-6xl">{recipe.emoji || '🍽️'}</span>
+          <div
+            className="h-full w-full flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, var(--surface), var(--surface-hover))' }}
+          >
+            <span className="text-7xl">{recipe.emoji || '🍽️'}</span>
           </div>
         )}
       </div>
@@ -54,55 +61,92 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
       {/* Header */}
       <div>
         <div className="flex items-center gap-2 mb-2">
-          <span className={`text-xs font-medium px-2 py-1 rounded-full ${categoryColors[recipe.category]}`}>
+          <span
+            className="text-xs font-semibold px-2.5 py-1 rounded-full"
+            style={{ background: cat.bg, color: cat.text }}
+          >
             {recipe.category.charAt(0).toUpperCase() + recipe.category.slice(1)}
           </span>
           {recipe.isHomechefFavorite && (
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
-              ⭐ Derek's Favorite
+            <span
+              className="text-xs font-semibold px-2.5 py-1 rounded-full"
+              style={{ background: 'var(--highlight)', color: 'var(--primary)' }}
+            >
+              ⭐ Derek&apos;s Favorite
             </span>
           )}
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">{recipe.title}</h1>
+        <h1 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
+          {recipe.title}
+        </h1>
         {recipe.description && (
-          <p className="text-gray-500 mt-1">{recipe.description}</p>
+          <p className="mt-1" style={{ color: 'var(--foreground-muted)' }}>
+            {recipe.description}
+          </p>
         )}
       </div>
 
-      {/* Meta info */}
-      <div className="flex gap-6 py-4 border-y border-gray-100">
-        <div className="text-center">
-          <div className="text-lg font-semibold text-gray-900">{recipe.totalTime}</div>
-          <div className="text-xs text-gray-500">Total Time</div>
+      {/* Meta */}
+      <div
+        className="flex gap-8 py-4 rounded-xl px-5"
+        style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+      >
+        <div>
+          <div className="text-lg font-bold" style={{ color: 'var(--foreground)' }}>
+            {recipe.totalTime}
+          </div>
+          <div className="text-xs" style={{ color: 'var(--foreground-faint)' }}>
+            Total Time
+          </div>
         </div>
-        <div className="text-center">
-          <div className="text-lg font-semibold text-gray-900">{recipe.serves}</div>
-          <div className="text-xs text-gray-500">Serves</div>
+        <div>
+          <div className="text-lg font-bold" style={{ color: 'var(--foreground)' }}>
+            {recipe.serves}
+          </div>
+          <div className="text-xs" style={{ color: 'var(--foreground-faint)' }}>
+            Serves
+          </div>
         </div>
       </div>
 
       {/* Ingredients */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">Ingredients</h2>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--foreground)' }}>
+          Ingredients
+        </h2>
         <IngredientList ingredients={recipe.ingredients} />
       </section>
 
-      {/* Instructions */}
+      {/* Instructions — Big text for kitchen use */}
       <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Instructions</h2>
-        <div className="space-y-4">
+        <h2 className="text-lg font-semibold mb-5" style={{ color: 'var(--foreground)' }}>
+          Instructions
+        </h2>
+        <div className="space-y-6">
           {recipe.instructions.map((step) => (
             <div key={step.step} className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-sm">
+              <div
+                className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm step-number"
+              >
                 {step.step}
               </div>
-              <div className="flex-1 pt-1">
+              <div className="flex-1 pt-0.5">
                 {step.title && (
-                  <h3 className="font-medium text-gray-900 mb-1">{step.title}</h3>
+                  <h3
+                    className="font-semibold mb-1"
+                    style={{ color: 'var(--foreground)' }}
+                  >
+                    {step.title}
+                  </h3>
                 )}
-                <p className="text-gray-700 leading-relaxed">{step.text}</p>
-                {step.image && (
-                  <div className="mt-3 relative h-32 w-48 rounded-lg overflow-hidden">
+                <p
+                  className="text-base leading-relaxed"
+                  style={{ color: 'var(--foreground-muted)', fontSize: '1rem', lineHeight: '1.7' }}
+                >
+                  {step.text}
+                </p>
+                {step.image && step.image.endsWith('.png') && (
+                  <div className="mt-3 relative h-36 w-full rounded-xl overflow-hidden">
                     <Image
                       src={step.image}
                       alt={step.title || `Step ${step.step}`}
@@ -119,11 +163,18 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
 
       {/* Tips */}
       {recipe.tips && recipe.tips.length > 0 && (
-        <section className="bg-amber-50 rounded-xl p-4">
-          <h2 className="text-sm font-semibold text-amber-800 mb-2">💡 Tips</h2>
-          <ul className="space-y-1">
+        <section
+          className="rounded-xl p-5"
+          style={{ background: 'var(--highlight)', border: '1px solid var(--border)' }}
+        >
+          <h2 className="text-sm font-semibold mb-2" style={{ color: 'var(--accent)' }}>
+            💡 Tips
+          </h2>
+          <ul className="space-y-1.5">
             {recipe.tips.map((tip, i) => (
-              <li key={i} className="text-sm text-amber-700">{tip}</li>
+              <li key={i} className="text-sm" style={{ color: 'var(--foreground-muted)' }}>
+                {tip}
+              </li>
             ))}
           </ul>
         </section>

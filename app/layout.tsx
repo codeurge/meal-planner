@@ -19,13 +19,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased min-h-screen bg-white">
-        <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 px-4 py-3">
+      <body className="antialiased min-h-screen" style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
+        <nav
+          className="sticky top-0 z-50 backdrop-blur-md px-4 py-3"
+          style={{
+            background: 'color-mix(in srgb, var(--background) 85%, transparent)',
+            borderBottom: '1px solid var(--border)',
+          }}
+        >
           <div className="max-w-2xl mx-auto flex items-center justify-between">
-            <a href="/" className="text-xl font-bold text-emerald-600">
+            <a href="/" className="text-xl font-bold" style={{ color: 'var(--primary)' }}>
               🍽️ Meal Planner
             </a>
-            <a href="/recipes" className="text-gray-600 hover:text-emerald-600 text-sm font-medium">
+            <a
+              href="/recipes"
+              className="text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
+              style={{ color: 'var(--foreground-muted)' }}
+            >
               All Recipes
             </a>
           </div>
