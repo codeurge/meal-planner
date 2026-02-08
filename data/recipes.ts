@@ -364,57 +364,67 @@ export const recipes: Recipe[] = [
   },
 ];
 
-// Weekly schedule with grocery day (Friday) and prep day (Sunday) logic built-in
-// Week starts on Friday (grocery pickup day at 2-3pm)
-export const weeklySchedule: DaySchedule[] = [
-  // FRIDAY - Grocery day (pickup 2-3pm)
+// Date-based weekly schedule — Feb 6-12, 2026
+export interface DateSchedule extends DaySchedule {
+  date: string; // YYYY-MM-DD
+}
+
+export const weeklySchedule: DateSchedule[] = [
+  // FRIDAY Feb 6 - Grocery day (pickup 2-3pm)
   {
+    date: '2026-02-06',
     day: 'Friday',
-    breakfast: { state: 'unavailable', displayText: 'Grab something', emoji: '🚗' },
-    lunch: { state: 'unavailable', displayText: 'Grab something', emoji: '🚗' },
-    dinner: { state: 'planned', recipeId: 'turkey-burrito-skillet' }, // Groceries arrive in time!
+    breakfast: { state: 'unavailable', displayText: 'None — groceries not picked up yet', emoji: '🚗' },
+    lunch: { state: 'unavailable', displayText: 'None', emoji: '🚗' },
+    dinner: { state: 'planned', recipeId: 'turkey-burrito-skillet' },
   },
-  // SATURDAY - Full groceries available
+  // SATURDAY Feb 7 - Full groceries available
   {
+    date: '2026-02-07',
     day: 'Saturday',
-    breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon', displayText: 'Big Breakfast', emoji: '🍳' },
-    lunch: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
-    dinner: { state: 'planned', recipeId: 'cajun-sirloin' },
-  },
-  // SUNDAY - Prep day (make burritos at lunch)
-  {
-    day: 'Sunday',
-    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits' },
-    lunch: { state: 'prep', recipeId: 'freezer-breakfast-burritos', displayText: 'PREP: Make Freezer Burritos', emoji: '🥣' },
-    dinner: { state: 'planned', recipeId: 'bbq-chicken-quesadillas' },
-  },
-  // MONDAY - Burritos now available!
-  {
-    day: 'Monday',
-    breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese' },
-    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
-    dinner: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
-  },
-  // TUESDAY
-  {
-    day: 'Tuesday',
     breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon' },
-    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
+    lunch: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
     dinner: { state: 'planned', recipeId: 'sheet-pan-pork-chops' },
   },
-  // WEDNESDAY
+  // SUNDAY Feb 8 - Prep day
   {
-    day: 'Wednesday',
-    breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese' },
-    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
+    date: '2026-02-08',
+    day: 'Sunday',
+    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits' },
+    lunch: { state: 'prep', recipeId: 'freezer-breakfast-burritos', displayText: 'PREP — Make Freezer Breakfast Burritos + Beef & Bean Burritos', emoji: '🥣' },
+    dinner: { state: 'planned', recipeId: 'cajun-sirloin' },
+  },
+  // MONDAY Feb 9
+  {
+    date: '2026-02-09',
+    day: 'Monday',
+    breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese', displayText: 'Scrambled Eggs with Cheese (or Freezer Breakfast Burrito)' },
+    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
+    dinner: { state: 'planned', recipeId: 'bbq-chicken-quesadillas' },
+  },
+  // TUESDAY Feb 10
+  {
+    date: '2026-02-10',
+    day: 'Tuesday',
+    breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon', displayText: 'Classic Eggs & Bacon (or Freezer Breakfast Burrito)' },
+    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
     dinner: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
   },
-  // THURSDAY
+  // WEDNESDAY Feb 11
   {
-    day: 'Thursday',
-    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits' },
-    lunch: { state: 'planned', recipeId: 'freezer-breakfast-burritos', displayText: 'Freezer Burrito', emoji: '🌯' },
+    date: '2026-02-11',
+    day: 'Wednesday',
+    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits', displayText: 'Sausage Gravy & Biscuits (or Freezer Breakfast Burrito)' },
+    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
     dinner: { state: 'flexible', displayText: 'Leftovers or Takeout', emoji: '🤷' },
+  },
+  // THURSDAY Feb 12
+  {
+    date: '2026-02-12',
+    day: 'Thursday',
+    breakfast: { state: 'planned', recipeId: 'scrambled-eggs-cheese', displayText: 'Scrambled Eggs with Cheese (or Freezer Breakfast Burrito)' },
+    lunch: { state: 'planned', displayText: 'Beef & Bean Burrito', emoji: '🌯' },
+    dinner: { state: 'flexible', displayText: 'TBD (next week planning)', emoji: '📋' },
   },
 ];
 
@@ -426,24 +436,44 @@ export function getRecipesByCategory(category: 'breakfast' | 'lunch' | 'dinner')
   return recipes.filter(r => r.category === category);
 }
 
-// Helper to get the schedule rotated to start from today
-export function getRotatedSchedule(): (DaySchedule & { isToday: boolean; daysFromNow: number })[] {
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const todayIndex = new Date().getDay();
-  
-  const rotatedSchedule = [];
-  for (let i = 0; i < 7; i++) {
-    const dayIndex = (todayIndex + i) % 7;
-    const dayName = days[dayIndex];
-    const scheduleEntry = weeklySchedule.find(s => s.day === dayName);
-    if (scheduleEntry) {
-      rotatedSchedule.push({
-        ...scheduleEntry,
+// Get today's date in America/Denver timezone as YYYY-MM-DD
+function getTodayDenver(): string {
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' });
+}
+
+// Helper to get the schedule starting from today (date-based)
+export function getRotatedSchedule(): (DateSchedule & { isToday: boolean; daysFromNow: number })[] {
+  const todayStr = getTodayDenver();
+
+  // Sort schedule by date
+  const sorted = [...weeklySchedule].sort((a, b) => a.date.localeCompare(b.date));
+
+  // Find today's index in the schedule
+  const todayIdx = sorted.findIndex(s => s.date === todayStr);
+
+  // Build the rotated list: today first, then future days, then past days
+  const result: (DateSchedule & { isToday: boolean; daysFromNow: number })[] = [];
+
+  if (todayIdx >= 0) {
+    // Start from today, show 7 days (or however many are in the schedule)
+    for (let i = 0; i < sorted.length; i++) {
+      const idx = (todayIdx + i) % sorted.length;
+      result.push({
+        ...sorted[idx],
         isToday: i === 0,
-        daysFromNow: i
+        daysFromNow: i,
       });
     }
+  } else {
+    // Today not in schedule — just show all days in order, none marked as today
+    sorted.forEach((entry, i) => {
+      result.push({
+        ...entry,
+        isToday: false,
+        daysFromNow: i,
+      });
+    });
   }
-  
-  return rotatedSchedule;
+
+  return result;
 }

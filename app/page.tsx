@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { getRotatedSchedule, getRecipeById, MealSlot, MealState } from '@/data/recipes';
+import { getRotatedSchedule, getRecipeById, MealSlot, MealState, DateSchedule } from '@/data/recipes';
 
 const mealStateStyles: Record<MealState, { text: string; badge?: string }> = {
   planned: { text: 'planned' },
@@ -62,6 +62,12 @@ function MealDisplay({ meal, mealType }: { meal: MealSlot; mealType: string }) {
   );
 }
 
+function formatDate(dateStr: string): string {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[m - 1]} ${d}`;
+}
+
 function DayCard({
   day,
 }: {
@@ -108,7 +114,7 @@ function DayCard({
         {/* Day header */}
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-base tracking-tight" style={{ color: isToday ? 'var(--primary)' : 'var(--foreground)' }}>
-            {day.day}
+            {day.day} <span className="font-normal text-sm" style={{ color: 'var(--foreground-muted)' }}>{formatDate(day.date)}</span>
           </h2>
           <div className="flex gap-1.5">
             {isToday && (
