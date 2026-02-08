@@ -382,7 +382,7 @@ export const weeklySchedule: DateSchedule[] = [
   {
     date: '2026-02-07',
     day: 'Saturday',
-    breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon' },
+    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits' },
     lunch: { state: 'leftovers', displayText: 'Leftovers', emoji: '📦' },
     dinner: { state: 'planned', recipeId: 'sheet-pan-pork-chops' },
   },
@@ -390,7 +390,7 @@ export const weeklySchedule: DateSchedule[] = [
   {
     date: '2026-02-08',
     day: 'Sunday',
-    breakfast: { state: 'planned', recipeId: 'sausage-gravy-biscuits' },
+    breakfast: { state: 'planned', recipeId: 'classic-eggs-bacon' },
     lunch: { state: 'prep', recipeId: 'freezer-breakfast-burritos', displayText: 'PREP — Make Freezer Breakfast Burritos + Beef & Bean Burritos', emoji: '🥣' },
     dinner: { state: 'planned', recipeId: 'cajun-sirloin' },
   },
